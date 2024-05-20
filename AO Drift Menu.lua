@@ -289,6 +289,23 @@ local driftTunes = {
 --? unsure if this is the ideal solution to initializing  tune selector array properly
 local driftTuneIndex = 1;
 
+----------------functions
+
+------------------------stat getter and setter
+function statGetter(name) 
+    if not localplayer:is_in_vehicle() then        
+        return 1.0
+    else
+        currentVehicle = localplayer:get_current_vehicle()
+        return currentVehicle["get_"..name](currentVehicle)
+    end
+end
+
+function statSetter(name, value) 
+    currentVehicle = localplayer:get_current_vehicle()
+    currentVehicle["set_"..name](currentVehicle, value)
+end
+
 -----------------menu
 submenu = menu.add_submenu("AO's Drift Menu")
 submenu:add_action("-------------AO's Drift Menu--------------", function() end)
@@ -298,6 +315,10 @@ submenu:add_action("-------------AO's Drift Menu--------------", function() end)
 if localplayer then  
     
 ---------------------menu building:::::::::::::::
+
+------------------nerdTune selector
+--nerd tune options toward the end
+nerdMenu = submenu:add_submenu("NerdTune", function() end)
 
 -------------------/Drift tunes\-------------------
 --saves vanilla stats, applies drift tunes as selected from array
@@ -393,75 +414,194 @@ if localplayer then
     
     
     
-    ------------------------nerdtune submenu
+
+
+
+-----------------------utilities and toggles
+
+    -------------------/Clear Wanted Level\-------------------
+    submenu:add_action("Clear Wanted Level", function() menu:clear_wanted_level()  end)
+
+
+    -------------------/repair current vehicle\-------------------
+    submenu:add_action("Repair", 
+        function() 
+            menu.repair_online_vehicle() 
+            if GodModeState then localplayer:set_godmode(GodModeState) end
+            if VDmgToggle then VDmgToggle = not VDmgToggle end            
+            if VGodToggle then VGodToggle = not VGodToggle end
+        end
+    )
+
+    ----------------------vehicle god mode
+
+    submenu:add_toggle("God Vehicle (wait after repair)", 
+        function() 
+            if not localplayer:is_in_vehicle() then 
+                VGodToggle = false
+            end
+            return VGodToggle 
+        end,
+        function() 
+            VGodToggle = not VGodToggle
+            VehicleGod(VGodToggle) 
+        end
+    )
+    function VehicleGod(enabled)
+        if not localplayer:is_in_vehicle() then 
+            return false
+        end
+        currentVehicle = localplayer:get_current_vehicle()
+
+        if enabled then
+            currentVehicle["set_godmode"](currentVehicle, true)
+            return
+        end
+        if not enabled then
+            currentVehicle["set_godmode"](currentVehicle, false)
+            return
+        end
+    end
+
+
+    ----------------------vehicle visible damage
+
+    submenu:add_toggle("Disable Damage (wait after repair)", 
+        function() 
+            if not localplayer:is_in_vehicle() then 
+                VDmgToggle = false
+            end
+            return VDmgToggle 
+        end,
+
+        function() 
+            VDmgToggle = not VDmgToggle
+            VehicleDamage(VDmgToggle) 
+        end
+    )
+    function VehicleDamage(enabled)
+        if not localplayer:is_in_vehicle() then 
+            return false
+        end
+        currentVehicle = localplayer:get_current_vehicle()
+
+        if enabled then
+            currentVehicle["set_can_be_visibly_damaged"](currentVehicle, false)
+            currentVehicle["set_collision_damage_multiplier"](currentVehicle, 0)
+            currentVehicle["set_deformation_damage_multiplier"](currentVehicle, 0)
+            return
+        end
+        if not enabled then
+            currentVehicle["set_can_be_visibly_damaged"](currentVehicle, true)
+            currentVehicle["set_collision_damage_multiplier"](currentVehicle, 1)
+            currentVehicle["set_deformation_damage_multiplier"](currentVehicle, 1)
+            return
+        end
+    end
+
+
+    -------------------Bulletproof tires
+
+    submenu:add_toggle("Bulletproof Tires", 
+        function() 
+            if not localplayer:is_in_vehicle() then
+                return disabled
+            else if localplayer:get_current_vehicle():get_bulletproof_tires() then
+                return true
+                end
+            end
+            return false
+        end,
+        function(enabled)  
+            if not localplayer:is_in_vehicle() then 
+                return disabled
+            end
+            
+            currentVehicle = localplayer:get_current_vehicle()
+            
+            if enabled then
+                currentVehicle:set_bulletproof_tires(true)
+                return enabled
+            else    
+                currentVehicle:set_bulletproof_tires(false)
+                return disabled
+            end
+        end
+    )
+
+
+    ---------------/Godmode\---------------
+    GodModeState = false
+    submenu:add_toggle("God Player", function() return GodModeState end, 
+        function()
+            GodModeState = not GodModeState
+            localplayer:set_godmode(GodModeState)
+        end)
+
+        ---does this stuff below do anything?
+
+    Godmode = false
+
+    function Godmode()
+        while true do
+            if localplayer:get_health() ~= localplayer:get_max_health() then
+                if Godmode == true then
+                    menu.heal_all()
+                end
+            end
+            sleep(0.2)
+        end
+    end
+
+
+
+    submenu:add_toggle("Remove Traffic (host, w.i.p.)", function() return deleteCars end, 
+        function() 
+            deleteCars = not deleteCars 
+            while deleteCars do
+                if localplayer:is_in_vehicle() then
+                    for veh in replayinterface.get_vehicles() do
+                        local deleteConfirm = true
+                        for i = 0, 31 do
+                            local playerPed = player.get_player_ped(i)
+                            if playerPed and playerPed:get_current_vehicle() == veh then
+                                deleteConfirm = false
+                            end
+                        end
+                        if deleteConfirm then
+                            local pos = veh:get_position()
+                            pos.z = pos.z - 100000
+                            veh:set_position(pos)
+                        end
+                    end
+                end
+                sleep(.7)
+            end
+        end
+    )
+
+    -------------------/Big Map\-------------------
+    submenu:add_toggle("Big Map", function() return mapToggle end,
+        function(mapToggle)
+            if mapToggle then
+                menu:set_big_map(true)
+                return enabled
+            else
+                menu:set_big_map(false)
+            end 
+            return
+        end
+    )
+
+
+        ------------------------nerdtune submenu
     --this submenu displays every accessible modifier value for the current vehicle, and allows
     --for fine adjustments of each. 
 
     --REFACTOR - REDUNDANT CODE THROUGHOUT NERDTUNE SECTION
-    nerdMenu = submenu:add_submenu("NerdTune", function() end)
     nerdMenu:add_action("-------------AO's NerdTune--------------", function() end)
 
-------------------------stat getter and setter
-    function statGetter(name) 
-        if not localplayer:is_in_vehicle() then        
-            return 1.0
-        else
-            currentVehicle = localplayer:get_current_vehicle()
-            return currentVehicle["get_"..name](currentVehicle)
-        end
-    end
 
-    function statSetter(name, value) 
-        currentVehicle = localplayer:get_current_vehicle()
-        currentVehicle["set_"..name](currentVehicle, value)
-    end
-
-
---------------------NT acceleration
-
-    nerdMenu:add_float_range("Acceleration", 0.01, -100.0, 100.0,
-        function() return statGetter("acceleration") end,
-        function(value) statSetter("acceleration", value) end
-    )
-
-    --------------------NT anti roll bar bias front
-
-    nerdMenu:add_float_range("Front Anti Roll Bar Bias", 0.01, -100.0, 100.0,
-        function() return statGetter("anti_roll_bar_bias_front") end,
-        function(value) statSetter("anti_roll_bar_bias_front", value) end
-    )
-
-    --------------------NT anti roll bar force
-
-    nerdMenu:add_float_range("Anti Roll Bar Force", 0.01, -100.0, 100.0,
-    function() return statGetter("anti_roll_bar_force") end,
-    function(value) statSetter("anti_roll_bar_force", value) end
-    )
-
-
-
-    --------------------NT brake bias front
-
-    nerdMenu:add_float_range("Front Brake Bias", 0.01, -100.0, 100.0,
-    function() return statGetter("brake_bias_front") end,
-    function(value) statSetter("brake_bias_front", value) end
-
-    )
-
-    --------------------NT brake force
-
-    nerdMenu:add_float_range("Brake Force", 0.01, -100.0, 100.0,
-    function() return statGetter("brake_force") end,
-    function(value) statSetter("brake_force", value) end
-
-    )
-
-    --------------------NT camber stiffness
-
-    nerdMenu:add_float_range("Camber Stiffness", 0.01, -100.0, 100.0,
-    function() return statGetter("camber_stiffness") end,
-    function(value) statSetter("camber_stiffness", value) end
-    )
 
     --------------------NT center of mass offset x
 
@@ -522,8 +662,51 @@ if localplayer then
             currentVehicle:set_centre_of_mass_offset(vehicleCenterMass) 
         end
     )
+--------------------NT acceleration
+
+    nerdMenu:add_float_range("Acceleration", 0.01, -100.0, 100.0,
+        function() return statGetter("acceleration") end,
+        function(value) statSetter("acceleration", value) end
+    )
+
+    --------------------NT anti roll bar bias front
+
+    nerdMenu:add_float_range("Front Anti Roll Bar Bias", 0.01, -100.0, 100.0,
+        function() return statGetter("anti_roll_bar_bias_front") end,
+        function(value) statSetter("anti_roll_bar_bias_front", value) end
+    )
+
+    --------------------NT anti roll bar force
+
+    nerdMenu:add_float_range("Anti Roll Bar Force", 0.01, -100.0, 100.0,
+    function() return statGetter("anti_roll_bar_force") end,
+    function(value) statSetter("anti_roll_bar_force", value) end
+    )
 
 
+
+    --------------------NT brake bias front
+
+    nerdMenu:add_float_range("Front Brake Bias", 0.01, -100.0, 100.0,
+    function() return statGetter("brake_bias_front") end,
+    function(value) statSetter("brake_bias_front", value) end
+
+    )
+
+    --------------------NT brake force
+
+    nerdMenu:add_float_range("Brake Force", 0.01, -100.0, 100.0,
+    function() return statGetter("brake_force") end,
+    function(value) statSetter("brake_force", value) end
+
+    )
+
+    --------------------NT camber stiffness
+
+    nerdMenu:add_float_range("Camber Stiffness", 0.01, -100.0, 100.0,
+    function() return statGetter("camber_stiffness") end,
+    function(value) statSetter("camber_stiffness", value) end
+    )
 
 
     --------------------NT up shift
@@ -779,193 +962,6 @@ if localplayer then
 -------------end of nerd tune
 
 
-
-
------------------------utilities and toggles
-
-    -------------------/Clear Wanted Level\-------------------
-    submenu:add_action("Clear Wanted Level", function() menu:clear_wanted_level()  end)
-
-
-    -------------------/repair current vehicle\-------------------
-    submenu:add_action("Repair", 
-        function() 
-            menu.repair_online_vehicle() 
-
-            --if function then set toggle?
-            if GodModeState then localplayer:set_godmode(GodModeState) end
-            
-            --if VDmgToggle then VehicleDamage(enabled) end
-            
-            --if VGodToggle then VehicleGod(enabled) end
-
-            if VDmgToggle then VDmgToggle = not VDmgToggle end
-            
-            if VGodToggle then VGodToggle = not VGodToggle end
-
-
-        end
-    )
-
-    ----------------------vehicle god mode
-
-    submenu:add_toggle("God Vehicle (wait after repair)", 
-        function() 
-            if not localplayer:is_in_vehicle() then 
-                VGodToggle = false
-            end
-            return VGodToggle 
-        end,
-        function() 
-            VGodToggle = not VGodToggle
-            VehicleGod(VGodToggle) 
-        end
-    )
-    function VehicleGod(enabled)
-        if not localplayer:is_in_vehicle() then 
-            return false
-        end
-        currentVehicle = localplayer:get_current_vehicle()
-
-        if enabled then
-            currentVehicle["set_godmode"](currentVehicle, true)
-            return
-        end
-        if not enabled then
-            currentVehicle["set_godmode"](currentVehicle, false)
-            return
-        end
-    end
-
-
-    ----------------------vehicle visible damage
-
-    submenu:add_toggle("Disable Damage (wait after repair)", 
-        function() 
-            if not localplayer:is_in_vehicle() then 
-                VDmgToggle = false
-            end
-            return VDmgToggle 
-        end,
-
-        function() 
-            VDmgToggle = not VDmgToggle
-            VehicleDamage(VDmgToggle) 
-        end
-    )
-    function VehicleDamage(enabled)
-        if not localplayer:is_in_vehicle() then 
-            return false
-        end
-        currentVehicle = localplayer:get_current_vehicle()
-
-        if enabled then
-            currentVehicle["set_can_be_visibly_damaged"](currentVehicle, false)
-            currentVehicle["set_collision_damage_multiplier"](currentVehicle, 0)
-            currentVehicle["set_deformation_damage_multiplier"](currentVehicle, 0)
-            return
-        end
-        if not enabled then
-            currentVehicle["set_can_be_visibly_damaged"](currentVehicle, true)
-            currentVehicle["set_collision_damage_multiplier"](currentVehicle, 1)
-            currentVehicle["set_deformation_damage_multiplier"](currentVehicle, 1)
-            return
-        end
-    end
-
-
-    -------------------Bulletproof tires
-
-    submenu:add_toggle("Bulletproof Tires", 
-        function() 
-            if not localplayer:is_in_vehicle() then
-                return disabled
-            else if localplayer:get_current_vehicle():get_bulletproof_tires() then
-                return true
-                end
-            end
-            return false
-        end,
-        function(enabled)  
-            if not localplayer:is_in_vehicle() then 
-                return disabled
-            end
-            
-            currentVehicle = localplayer:get_current_vehicle()
-            
-            if enabled then
-                currentVehicle:set_bulletproof_tires(true)
-                return enabled
-            else    
-                currentVehicle:set_bulletproof_tires(false)
-                return disabled
-            end
-        end
-    )
-
-
-    ---------------/Godmode\---------------
-    GodModeState = false
-    submenu:add_toggle("God Player", function() return GodModeState end, 
-        function()
-            GodModeState = not GodModeState
-            localplayer:set_godmode(GodModeState)
-        end)
-
-        ---does this stuff below do anything?
-
-    Godmode = false
-
-    function Godmode()
-        while true do
-            if localplayer:get_health() ~= localplayer:get_max_health() then
-                if Godmode == true then
-                    menu.heal_all()
-                end
-            end
-            sleep(0.2)
-        end
-    end
-
-
-
-    submenu:add_toggle("Remove Traffic (host, w.i.p.)", function() return deleteCars end, 
-        function() 
-            deleteCars = not deleteCars 
-            while deleteCars do
-                if localplayer:is_in_vehicle() then
-                    for veh in replayinterface.get_vehicles() do
-                        local deleteConfirm = true
-                        for i = 0, 31 do
-                            local playerPed = player.get_player_ped(i)
-                            if playerPed and playerPed:get_current_vehicle() == veh then
-                                deleteConfirm = false
-                            end
-                        end
-                        if deleteConfirm then
-                            local pos = veh:get_position()
-                            pos.z = pos.z - 100000
-                            veh:set_position(pos)
-                        end
-                    end
-                end
-                sleep(.7)
-            end
-        end
-    )
-
-    -------------------/Big Map\-------------------
-    submenu:add_toggle("Big Map", function() return mapToggle end,
-        function(mapToggle)
-            if mapToggle then
-                menu:set_big_map(true)
-                return enabled
-            else
-                menu:set_big_map(false)
-            end 
-            return
-        end
-    )
 else 
     submenu:add_action("go online, then reload scripts", function() return end)
 end
