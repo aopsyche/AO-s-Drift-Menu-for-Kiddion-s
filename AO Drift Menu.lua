@@ -429,40 +429,22 @@ if localplayer then
 --------------------NT acceleration
 
     nerdMenu:add_float_range("Acceleration", 0.01, -100.0, 100.0,
-        function() statGetter("acceleration") end,
-        function() statSetter("acceleration", value) end
+        function() return statGetter("acceleration") end,
+        function(value) statSetter("acceleration", value) end
     )
 
     --------------------NT anti roll bar bias front
 
     nerdMenu:add_float_range("Front Anti Roll Bar Bias", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_anti_roll_bar_bias_front()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_anti_roll_bar_bias_front(value)  
-        end
+        function() return statGetter("anti_roll_bar_bias_front") end,
+        function(value) statSetter("anti_roll_bar_bias_front", value) end
     )
 
     --------------------NT anti roll bar force
 
     nerdMenu:add_float_range("Anti Roll Bar Force", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_anti_roll_bar_force()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_anti_roll_bar_force(value)  
-        end
+    function() return statGetter("anti_roll_bar_force") end,
+    function(value) statSetter("anti_roll_bar_force", value) end
     )
 
 
@@ -470,49 +452,24 @@ if localplayer then
     --------------------NT brake bias front
 
     nerdMenu:add_float_range("Front Brake Bias", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_brake_bias_front()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_brake_bias_front(value)  
-        end
+    function() return statGetter("brake_bias_front") end,
+    function(value) statSetter("brake_bias_front", value) end
+
     )
 
     --------------------NT brake force
 
     nerdMenu:add_float_range("Brake Force", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_brake_force()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_brake_force(value)  
-        end
+    function() return statGetter("brake_force") end,
+    function(value) statSetter("brake_force", value) end
+
     )
 
     --------------------NT camber stiffness
 
     nerdMenu:add_float_range("Camber Stiffness", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_camber_stiffness()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_camber_stiffness(value)  
-        end
+    function() return statGetter("camber_stiffness") end,
+    function(value) statSetter("camber_stiffness", value) end
     )
 
     --------------------NT center of mass offset x
@@ -581,33 +538,15 @@ if localplayer then
     --------------------NT up shift
 
     nerdMenu:add_float_range("Up Shift", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_up_shift()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_up_shift(value)  
-        end
+        function() return statGetter("up_shift") end,
+        function(value) statSetter("up_shift", value) end
     )
 
     --------------------NT down shift
 
     nerdMenu:add_float_range("Down Shift", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_down_shift()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_centre_of_mass_offset(value)  
-        end
+        function() return statGetter("down_shift") end,
+        function(value) statSetter("down_shift", value) end
     )
 
  
@@ -615,33 +554,15 @@ if localplayer then
     --------------------NT Front Drive Bias
 
     nerdMenu:add_float_range("Front Drive Bias", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_drive_bias_front()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_drive_bias_front(value)  
-        end
+        function() return statGetter("drive_bias_front") end,
+        function(value) statSetter("drive_bias_front", value) end
     )
 
     --------------------NT Drive Inertia
 
     nerdMenu:add_float_range("Drive Inertia", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_drive_inertia()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_drive_inertia(value)  
-        end
+        function() return statGetter("drive_inertia") end,
+        function(value) statSetter("drive_inertia", value) end
     )
 
 
@@ -649,33 +570,15 @@ if localplayer then
     --------------------NT gravity
 
     nerdMenu:add_float_range("Gravity", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_gravity()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_gravity(value)  
-        end
+        function() return statGetter("gravity") end,
+        function(value) statSetter("gravity", value) end
     )
 
     --------------------NT handbrake force
 
     nerdMenu:add_float_range("Handbrake Force", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_handbrake_force()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_handbrake_force(value)  
-        end
+        function() return statGetter("handbrake_force") end,
+        function(value) statSetter("handbrake_force", value) end
     )
 
 
@@ -683,386 +586,170 @@ if localplayer then
     --------------------NT initial drag coefficient
 
     nerdMenu:add_float_range("Initial Drag Coefficient", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_initial_drag_coeff()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_initial_drag_coeff(value)  
-        end
+        function() return statGetter("initial_drag_coeff") end,
+        function(value) statSetter("initial_drag_coeff", value) end
     )
 
     --------------------NT initial drive force
-
     nerdMenu:add_float_range("Initial Drive Force", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_initial_drive_force()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_initial_drive_force(value)  
-        end
+        function() return statGetter("acceleration") end,
+        function(value) statSetter("acceleration", value) end
+
     )
 
     --------------------NT initial drive gears
 
     nerdMenu:add_int_range("Initial Drive Gears", 1, -100, 100,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1
-            else
-                return localplayer:get_current_vehicle():get_initial_drive_gears()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_initial_drive_gears(value)  
-        end
+        function() return statGetter("initial_drive_gears") end,
+        function(value) statSetter("initial_drive_gears", value) end
     )
 
     --------------------NT initial drive max flat velocity
 
     nerdMenu:add_float_range("Initial Drive Max Flat Velocity", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_initial_drive_max_flat_velocity()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_initial_drive_max_flat_velocity(value)  
-        end
+        function() return statGetter("initial_drive_max_flat_velocity") end,
+        function(value) statSetter("initial_drive_max_flat_velocity", value) end
     )
 
     --------------------NT low speed traction loss multiplier
 
     nerdMenu:add_float_range("Low Speed Traction Loss Multiplier", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_low_speed_traction_loss_multiplier()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_low_speed_traction_loss_multiplier(value)  
-        end
+        function() return statGetter("low_speed_traction_loss_multiplier") end,
+        function(value) statSetter("low_speed_traction_loss_multiplier", value) end
     )
 
     --------------------NT mass
 
     nerdMenu:add_float_range("Mass", 10, -10000.0, 10000.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_mass()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_mass(value)  
-        end
+        function() return statGetter("mass") end,
+        function(value) statSetter("mass", value) end
     )
 
     --------------------NT max speed
 
     nerdMenu:add_float_range("Max Speed", 10, -1000.0, 1000.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_max_speed()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_max_speed(value)  
-        end
+        function() return statGetter("max_speed") end,
+        function(value) statSetter("max_speed", value) end
     )
 
     --------------------NT roll center height front
 
     nerdMenu:add_float_range("Front Roll Center Height", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_roll_centre_height_front()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_roll_centre_height_front(value)  
-        end
+        function() return statGetter("roll_centre_height_front") end,
+        function(value) statSetter("roll_centre_height_front", value) end
     )
 
     --------------------NT roll center height rear
 
     nerdMenu:add_float_range("Rear Roll Center Height", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_roll_centre_height_rear()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_roll_centre_height_rear(value)  
-        end
+        function() return statGetter("acceleration") end,
+        function(value) statSetter("acceleration", value) end
     )
 
     --------------------NT steering lock
 
     nerdMenu:add_float_range("Steering Lock", 1.0, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_steering_lock()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_steering_lock(value)  
-        end
+        function() return statGetter("steering_lock") end, 
+        function(value) statSetter("steering_lock", value) end
     )
 
     --------------------NT Front Suspension Bias
 
     nerdMenu:add_float_range("Front Suspension Bias", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_suspension_bias_front()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_suspension_bias_front(value)  
-        end
+        function() return statGetter("suspension_bias_front") end,  
+        function(value) statSetter("suspension_bias_front", value) end
     )
 
     --------------------NT suspension compression damping
 
     nerdMenu:add_float_range("Suspension Compression Damping", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_suspension_comp_damp()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_suspension_comp_damp(value)  
-        end
+        function() return statGetter("suspension_comp_damp") end,
+        function(value) statSetter("suspension_comp_damp", value) end
     )
 
     --------------------NT suspension force
 
     nerdMenu:add_float_range("Suspension Force", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_suspension_force()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_suspension_force(value)  
-        end
+        function() return statGetter("suspension_force") end,
+        function(value) statSetter("suspension_force", value) end
     )
 
 
     --------------------NT suspension heaight
 
     nerdMenu:add_float_range("Suspension Height", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_suspension_height()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_suspension_height(value)  
-        end
+        function() return statGetter("suspension_height") end,
+        function(value) statSetter("suspension_height", value) end
     )
 
     --------------------NT suspension lower limit
 
     nerdMenu:add_float_range("Suspension Lower Limit", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_suspension_lower_limit()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_suspension_lower_limit(value)  
-        end
+        function() return statGetter("suspension_lower_limit") end,
+        function(value) statSetter("suspension_lower_limit", value) end
     )
 
     --------------------NT suspension raise
 
     nerdMenu:add_float_range("Suspension Raise", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_suspension_raise()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_suspension_raise(value)  
-        end
+        function() return statGetter("suspension_raise") end,
+        function(value) statSetter("suspension_raise", value) end
     )
 
     --------------------NT suspension rebound dampening
 
     nerdMenu:add_float_range("Suspension Rebound Dampening", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_suspension_rebound_damp()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_suspension_rebound_damp(value)  
-        end
+        function() return statGetter("suspension_rebound_damp") end,
+        function(value) statSetter("suspension_rebound_damp", value) end
     )
 
     --------------------NT suspension upper limit
 
     nerdMenu:add_float_range("Suspension Upper Limit", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_suspension_upper_limit()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_suspension_upper_limit(value)  
-        end
+        function() return statGetter("suspension_upper_limit") end,
+        function(value) statSetter("suspension_upper_limit", value) end
     )
 
     --------------------NT front traction bias
 
     nerdMenu:add_float_range("Front Traction Bias", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_traction_bias_front()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_traction_bias_front(value)  
-        end
+        function() return statGetter("traction_bias_front") end,
+        function(value) statSetter("traction_bias_front", value) end
     )
 
     --------------------NT Traction Curve Lateral
 
     nerdMenu:add_float_range("Traction Curve Lateral", 0.1, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_traction_curve_lateral()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_traction_curve_lateral(value)  
-        end
+        function() return statGetter("traction_curve_lateral") end,
+        function(value) statSetter("traction_curve_lateral", value) end
     )
 
     --------------------NT traction curve max
 
     nerdMenu:add_float_range("Traction Curve Max", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_traction_curve_max()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_traction_curve_max(value)  
-        end
+        function() return statGetter("traction_curve_max") end,
+        function(value) statSetter("traction_curve_max", value) end
     )
 
     --------------------NT traction curve min
 
     nerdMenu:add_float_range("Traction Curve Minimum", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_traction_curve_min()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_traction_curve_min(value)  
-        end
+        function() return statGetter("traction_curve_min") end,
+        function(value) statSetter("traction_curve_min", value) end
     )
 
     --------------------NT traction loss multiplier
 
     nerdMenu:add_float_range("Traction Loss Multiplier", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_traction_loss_multiplier()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_traction_loss_multiplier(value)  
-        end
+        function() return statGetter("traction_loss_multiplier") end,
+        function(value) statSetter("traction_loss_multiplier", value) end
     )
 
     --------------------NT traction spring delta max
 
     nerdMenu:add_float_range("Traction Spring Delta Max", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_traction_spring_delta_max()
-            end
-        end,
-        function(value)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_traction_spring_delta_max(value)  
-        end
+        function() return statGetter("traction_spring_delta_max") end,
+        function(value) statSetter("traction_spring_delta_max", value) end
     )
 
     ------some values that will likely never see inclusion in this menu, irrelevant
