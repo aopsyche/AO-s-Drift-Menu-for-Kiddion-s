@@ -30,6 +30,7 @@
 
 ---------------variables, objects
 
+--for saving current vehicle stats, used to revert stats back to vanilla
 local savedVehicle = {
     
     model_hash = 0;
@@ -68,7 +69,10 @@ local savedVehicle = {
     traction_curve_min = 0;
 
 }
+------------drift tunes
 
+--this changes minimal stats to enable drifting in a style similar to vanilla drift tune vehicles
+--retains more character of the original car
 local vanillishDriftTune = {
 
     --model_hash = nil;
@@ -86,6 +90,7 @@ local vanillishDriftTune = {
 
 }
 
+--this changes all of the current vehicle's stats to average values from all vanilla drift tuners
 local vanillAvgDriftTune = {
 
     --model_hash = nil;
@@ -124,6 +129,7 @@ local vanillAvgDriftTune = {
 
 }
 
+--tune based on KuroiYurei's recommended kiddion's settings
 local keepUpDriftTune = {
 
     --model_hash = nil;
@@ -163,6 +169,7 @@ local keepUpDriftTune = {
 
 }
 
+--tune based on Manu's published drift tune
 local manuishDriftTune = {
 
     --model_hash = nil;
@@ -202,6 +209,7 @@ local manuishDriftTune = {
 
 }
 
+--based on Calpurnia's AWD drift tune
 local calpurnishDriftTune = {
 
     acceleration = 3;
@@ -222,6 +230,7 @@ local calpurnishDriftTune = {
 
 }
 
+--based on Calpurnia's AWD HoonTune
 local calHoonDriftTune = {
 
     acceleration = 3;
@@ -242,6 +251,7 @@ local calHoonDriftTune = {
 
 }
 
+--based on Calpurnia's AWD FD Comp tune
 local calCompDriftTune = {
 
     acceleration = 10;
@@ -262,7 +272,7 @@ local calCompDriftTune = {
 
 }
 
-
+--collection of tunes for the selector array
 local driftTunes = {
 
     savedVehicle;
@@ -276,6 +286,7 @@ local driftTunes = {
 
 }
 
+--? unsure if this is the ideal solution to initializing  tune selector array properly
 local driftTuneIndex = 1;
 
 -----------------menu
