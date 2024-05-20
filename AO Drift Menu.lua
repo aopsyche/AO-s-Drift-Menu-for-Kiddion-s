@@ -396,6 +396,12 @@ if localplayer then
         end
     )
 
+    
+    
+    
+    
+    
+    
     ------------------------nerdtune submenu
     --this submenu displays every accessible modifier value for the current vehicle, and allows
     --for fine adjustments of each. 
@@ -404,40 +410,7 @@ if localplayer then
     nerdMenu = submenu:add_submenu("NerdTune", function() end)
     nerdMenu:add_action("-------------AO's NerdTune--------------", function() end)
 
-
-    ------some values that will likely never see inclusion in this menu, irrelevant
-    --[[Integer vehicle:get_bomb_count()
-    bool    vehicle:get_boost()
-    bool    vehicle:get_boost_active()
-    bool    vehicle:get_boost_enabled()
-    Number  vehicle:get_bouyance()
-    ]]
-
-    ------some more unused values, although these could be useful
-
-    --[[Number  vehicle:get_collision_damage_multiplier()
-    Integer vehicle:get_countermeasure_count()
-    bool    vehicle:get_create_money_pickups()
-    --Integer --[[ red 0..255 ]]--,
-    --Integer --[[ green 0..255 ]],
-    --Integer --[[ blue 0..255 ]]
-    --        vehicle:get_custom_primary_colour()
-    --Integer --[[ red 0..255 ]],
-    --Integer --[[ green 0..255 ]],
-    --Integer --[[ blue 0..255 ]]
-    --        vehicle:get_custom_secondary_colour()
-    --Number  vehicle:get_deformation_damage_multiplier()
-    --Number  vehicle:get_dirt_level()
-    --Integer vehicle:get_door_lock_state()
-    --]]
-       --[[bool    vehicle:get_drift_tyres_enabled()
-    Number  vehicle:get_drift_vehicle_reduced_suspension()]]
-
-        ------------------------NT inertia multiplier
-    ---Vector3 vehicle:get_inertia_multiplier()
-
-
-    --------------------NT acceleration
+--------------------NT acceleration
 
     nerdMenu:add_float_range("Acceleration", 0.01, -100.0, 100.0,
         function() 
@@ -1084,6 +1057,40 @@ if localplayer then
             currentVehicle:set_traction_spring_delta_max(value)  
         end
     )
+
+    ------some values that will likely never see inclusion in this menu, irrelevant
+    --[[Integer vehicle:get_bomb_count()
+    bool    vehicle:get_boost()
+    bool    vehicle:get_boost_active()
+    bool    vehicle:get_boost_enabled()
+    Number  vehicle:get_bouyance()
+    ]]
+
+    ------some more unused values, although these could be useful
+
+    --[[Number  vehicle:get_collision_damage_multiplier()
+    Integer vehicle:get_countermeasure_count()
+    bool    vehicle:get_create_money_pickups()
+    --Integer --[[ red 0..255 ]]--,
+    --Integer --[[ green 0..255 ]],
+    --Integer --[[ blue 0..255 ]]
+    --        vehicle:get_custom_primary_colour()
+    --Integer --[[ red 0..255 ]],
+    --Integer --[[ green 0..255 ]],
+    --Integer --[[ blue 0..255 ]]
+    --        vehicle:get_custom_secondary_colour()
+    --Number  vehicle:get_deformation_damage_multiplier()
+    --Number  vehicle:get_dirt_level()
+    --Integer vehicle:get_door_lock_state()
+    --]]
+       --[[bool    vehicle:get_drift_tyres_enabled()
+    Number  vehicle:get_drift_vehicle_reduced_suspension()]]
+
+        ------------------------NT inertia multiplier
+    ---Vector3 vehicle:get_inertia_multiplier()
+
+
+
 -------------end of nerd tune
 
 
