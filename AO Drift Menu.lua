@@ -293,9 +293,14 @@ local driftTuneIndex = 1;
 submenu = menu.add_submenu("AO's Drift Menu")
 submenu:add_action("-------------AO's Drift Menu--------------", function() end)
 
-if localplayer then            
--------------------/Drift tunes\-------------------
 
+--this check is a bit janky, callback?
+if localplayer then  
+    
+---------------------menu building:::::::::::::::
+
+-------------------/Drift tunes\-------------------
+--saves vanilla stats, applies drift tunes as selected from array
     submenu:add_array_item("Drift Tune:", {"None", "Vanillish", "VanillAverage", "Calpurnish", "CalHoon", "CalComp", 
     "Kuroish", "Manuish"}, 
         function() 
@@ -327,7 +332,7 @@ if localplayer then
 
 
     -------------------Low Grip
-
+--adds low grip tires to the current vehicle
     submenu:add_toggle("Low Grips", 
         function() 
             if not localplayer:is_in_vehicle() then
@@ -357,7 +362,7 @@ if localplayer then
 
 
     --------------------acceleration
-
+--adjuster for the acceleration multiplier. use to control power curve of vehicle
     submenu:add_float_range("Acceleration", 0.05, 0.0, 100.0,
         function() 
             if not localplayer:is_in_vehicle() then        
@@ -373,7 +378,8 @@ if localplayer then
     )
 
     --------------------traction modifier
-
+--this adjust the max and min points of the traction curve of the current vehicle.
+--the max value is displayed, although the minimum is also adjusted to maintain the curve
     submenu:add_float_range("Traction Modifier", 0.01, 0.0, 10,
         function() 
             if localplayer:is_in_vehicle() then
@@ -391,8 +397,45 @@ if localplayer then
     )
 
     ------------------------nerdtune submenu
+    --this submenu displays every accessible modifier value for the current vehicle, and allows
+    --for fine adjustments of each. 
+
+    --REFACTOR - REDUNDANT CODE THROUGHOUT NERDTUNE SECTION
     nerdMenu = submenu:add_submenu("NerdTune", function() end)
     nerdMenu:add_action("-------------AO's NerdTune--------------", function() end)
+
+
+    ------some values that will likely never see inclusion in this menu, irrelevant
+    --[[Integer vehicle:get_bomb_count()
+    bool    vehicle:get_boost()
+    bool    vehicle:get_boost_active()
+    bool    vehicle:get_boost_enabled()
+    Number  vehicle:get_bouyance()
+    ]]
+
+    ------some more unused values, although these could be useful
+
+    --[[Number  vehicle:get_collision_damage_multiplier()
+    Integer vehicle:get_countermeasure_count()
+    bool    vehicle:get_create_money_pickups()
+    --Integer --[[ red 0..255 ]]--,
+    --Integer --[[ green 0..255 ]],
+    --Integer --[[ blue 0..255 ]]
+    --        vehicle:get_custom_primary_colour()
+    --Integer --[[ red 0..255 ]],
+    --Integer --[[ green 0..255 ]],
+    --Integer --[[ blue 0..255 ]]
+    --        vehicle:get_custom_secondary_colour()
+    --Number  vehicle:get_deformation_damage_multiplier()
+    --Number  vehicle:get_dirt_level()
+    --Integer vehicle:get_door_lock_state()
+    --]]
+       --[[bool    vehicle:get_drift_tyres_enabled()
+    Number  vehicle:get_drift_vehicle_reduced_suspension()]]
+
+        ------------------------NT inertia multiplier
+    ---Vector3 vehicle:get_inertia_multiplier()
+
 
     --------------------NT acceleration
 
@@ -442,12 +485,7 @@ if localplayer then
         end
     )
 
-    --[[Integer vehicle:get_bomb_count()
-    bool    vehicle:get_boost()
-    bool    vehicle:get_boost_active()
-    bool    vehicle:get_boost_enabled()
-    Number  vehicle:get_bouyance()
-    ]]
+
 
     --------------------NT brake bias front
 
@@ -559,21 +597,6 @@ if localplayer then
 
 
 
-    --[[Number  vehicle:get_collision_damage_multiplier()
-    Integer vehicle:get_countermeasure_count()
-    bool    vehicle:get_create_money_pickups()
-    --Integer --[[ red 0..255 ]]--,
-    --Integer --[[ green 0..255 ]],
-    --Integer --[[ blue 0..255 ]]
-    --        vehicle:get_custom_primary_colour()
-    --Integer --[[ red 0..255 ]],
-    --Integer --[[ green 0..255 ]],
-    --Integer --[[ blue 0..255 ]]
-    --        vehicle:get_custom_secondary_colour()
-    --Number  vehicle:get_deformation_damage_multiplier()
-    --Number  vehicle:get_dirt_level()
-    --Integer vehicle:get_door_lock_state()
-    --]]
 
     --------------------NT up shift
 
@@ -607,8 +630,7 @@ if localplayer then
         end
     )
 
-    --[[bool    vehicle:get_drift_tyres_enabled()
-    Number  vehicle:get_drift_vehicle_reduced_suspension()]]
+ 
 
     --------------------NT Front Drive Bias
 
@@ -676,8 +698,7 @@ if localplayer then
         end
     )
 
-    ------------------------NT inertia multiplier
-    ---Vector3 vehicle:get_inertia_multiplier()
+
 
     --------------------NT initial drag coefficient
 
@@ -1063,166 +1084,18 @@ if localplayer then
             currentVehicle:set_traction_spring_delta_max(value)  
         end
     )
+-------------end of nerd tune
 
 
 
 
-    --[[-----------------------drift lights
-
-    submenu:add_toggle("Accel/Decel Indicator Lights)", function() return driftLightToggle end,
-    function(enabled) 
-        driftLightToggle = enabled 
-        if not localplayer:is_in_vehicle() then return 
-        end
-        
-        local currentVehicle = localplayer:get_current_vehicle()
-        currentVehicle:
-
-        while enabled do
-            currentVehicle:get_drive_inertia()
-            return
-        end
-
-        for name, value in next, savedVehicle do
-            currentVehicle["set_"..name](currentVehicle, value)
-        end
-    end
-    )
-    ]]
-
-    --[[------------------suspension height
-
-    submenu:add_float_range("Suspension Height (broke)", 0.01, -2.0, 2.0,
-        function() 
-            return V6
-        end,
-        function(value) 
-            SuspensionHeight(value) 
-        end
-    )
-
-    function SuspensionHeight(value)
-    end
-    ]]
-    --[[------------------suspension upgrade
-    submenu:add_int_range("Suspension Upgrade (broke)", 1, 0, 5,
-        function() 
-            return V7 
-        end,
-        function(value) 
-            V7 = 0; 
-            SuspensionApply(value) 
-        end
-    )
-
-    function SuspensionApply(value)
-        if not localplayer:is_in_vehicle() then 
-            return 
-        end
-        currentVehicle = localplayer:get_current_vehicle()
-    end
-
-    -------------------performance 
-    submenu:add_toggle("Max Performance (broke)",
-        function() 
-            return V2 
-        end,
-        function(enabled) 
-            V2 = enabled; 
-            PerformanceApply(enabled) 
-        end
-    )
-        
-            
-    function PerformanceApply(enabled)
-        if not localplayer:is_in_vehicle() then 
-            return 
-        end
-        currentVehicle = localplayer:get_current_vehicle()
-        if enabled then
-            for name, value in next, vehicleChanges do
-                savedVehicle[name] = currentVehicle["get_"..name](currentVehicle)
-                currentVehicle["set_"..name](currentVehicle, value)
-            end
-            
-            return
-        end
-        
-        for name, value in next, savedVehicle do
-            currentVehicle["set_"..name](currentVehicle, value)
-        end
-    end
-
-    -------------------armor mods
-
-    submenu:add_toggle("Max Armor (broke)",
-        function() 
-            return V4 
-        end,
-        function(enabled) 
-            V4 = enabled; 
-            ArmorApply(enabled) 
-        end
-    )
-                            
-            
-    function ArmorApply(enabled)
-        if not localplayer:is_in_vehicle() then 
-            return 
-        end
-        currentVehicle = localplayer:get_current_vehicle()
-        if enabled then
-            for name, value in next, vehicleChanges do
-                savedVehicle[name] = currentVehicle["get_"..name](currentVehicle)
-                currentVehicle["set_"..name](currentVehicle, value)
-            end
-            
-            return
-        end
-        
-        for name, value in next, savedVehicle do
-            currentVehicle["set_"..name](currentVehicle, value)
-        end
-    end
-
-    -------------------Brakes mod
-
-    submenu:add_toggle("Max Brakes (broke)",
-        function() 
-            return V3 
-        end,
-        function(enabled) 
-            V3 = enabled; 
-            BrakesApply(enabled) 
-        end
-    )
-            
-    function BrakesApply(enabled)
-        if not localplayer:is_in_vehicle() then 
-            return 
-        end
-        currentVehicle = localplayer:get_current_vehicle()
-        
-        if enabled then
-            for name, value in next, vehicleChanges do
-                savedVehicle[name] = currentVehicle["get_"..name](currentVehicle)
-                currentVehicle["set_"..name](currentVehicle, value)
-            end    
-            return
-        end
-        
-        for name, value in next, savedVehicle do
-            currentVehicle["set_"..name](currentVehicle, value)
-        end
-    end
-    ]]
-
+-----------------------utilities and toggles
 
     -------------------/Clear Wanted Level\-------------------
     submenu:add_action("Clear Wanted Level", function() menu:clear_wanted_level()  end)
 
 
-    -------------------/repair\-------------------
+    -------------------/repair current vehicle\-------------------
     submenu:add_action("Repair", 
         function() 
             menu.repair_online_vehicle() 
@@ -1242,19 +1115,7 @@ if localplayer then
         end
     )
 
-    --[[-----------------allgod-------------
 
-    submenu:add_action("AllGod",
-        function()
-            GodModeState = true
-            localplayer:set_godmode(GodModeState)
-            VDmgToggle = true
-            VehicleDamage(enabled)
-            VGodToggle = true
-            VehicleGod(enabled)
-        end    
-    )
-    ]]
 
 
 
@@ -1378,10 +1239,226 @@ if localplayer then
         end
     end
 
-    --extrasmenu = submenu:add_submenu("extras") 
+
+
+    submenu:add_toggle("Remove Traffic (host, w.i.p.)", function() return deleteCars end, 
+        function() 
+            deleteCars = not deleteCars 
+            while deleteCars do
+                if localplayer:is_in_vehicle() then
+                    for veh in replayinterface.get_vehicles() do
+                        local deleteConfirm = true
+                        for i = 0, 31 do
+                            local playerPed = player.get_player_ped(i)
+                            if playerPed and playerPed:get_current_vehicle() == veh then
+                                deleteConfirm = false
+                            end
+                        end
+                        if deleteConfirm then
+                            local pos = veh:get_position()
+                            pos.z = pos.z - 100000
+                            veh:set_position(pos)
+                        end
+                    end
+                end
+                sleep(.7)
+            end
+        end
+    )
+
+    -------------------/Big Map\-------------------
+    submenu:add_toggle("Big Map", function() return mapToggle end,
+        function(mapToggle)
+            if mapToggle then
+                menu:set_big_map(true)
+                return enabled
+            else
+                menu:set_big_map(false)
+            end 
+            return
+        end
+    )
+else 
+    submenu:add_action("go online, then reload scripts", function() return end)
+end
+
+
+
+
+
+
+
+
+
+
+    -----------------------some preliminary work on possible future features?
+    --[[-----------------------drift lights
+
+    ---control neon color by either car angle or accel/decel for aid in tandem drifting
+
+    submenu:add_toggle("Accel/Decel Indicator Lights)", function() return driftLightToggle end,
+    function(enabled) 
+        driftLightToggle = enabled 
+        if not localplayer:is_in_vehicle() then return 
+        end
+        
+        local currentVehicle = localplayer:get_current_vehicle()
+        currentVehicle:
+
+        while enabled do
+            currentVehicle:get_drive_inertia()
+            return
+        end
+
+        for name, value in next, savedVehicle do
+            currentVehicle["set_"..name](currentVehicle, value)
+        end
+    end
+    )
+    ]]
+
+
+    -----------------PERFORMANCE UPGRADE ADJUSTERS
+    --no clue how to do this. seems that it must be done with globals.example or packed stats??
+    
+    --[[------------------suspension upgrade
+    submenu:add_int_range("Suspension Upgrade (broke)", 1, 0, 5,
+        function() 
+            return V7 
+        end,
+        function(value) 
+            V7 = 0; 
+            SuspensionApply(value) 
+        end
+    )
+
+    function SuspensionApply(value)
+        if not localplayer:is_in_vehicle() then 
+            return 
+        end
+        currentVehicle = localplayer:get_current_vehicle()
+    end
+
+    -------------------performance 
+    submenu:add_toggle("Max Performance (broke)",
+        function() 
+            return V2 
+        end,
+        function(enabled) 
+            V2 = enabled; 
+            PerformanceApply(enabled) 
+        end
+    )
+        
+            
+    function PerformanceApply(enabled)
+        if not localplayer:is_in_vehicle() then 
+            return 
+        end
+        currentVehicle = localplayer:get_current_vehicle()
+        if enabled then
+            for name, value in next, vehicleChanges do
+                savedVehicle[name] = currentVehicle["get_"..name](currentVehicle)
+                currentVehicle["set_"..name](currentVehicle, value)
+            end
+            
+            return
+        end
+        
+        for name, value in next, savedVehicle do
+            currentVehicle["set_"..name](currentVehicle, value)
+        end
+    end
+
+    -------------------armor mods
+
+    submenu:add_toggle("Max Armor (broke)",
+        function() 
+            return V4 
+        end,
+        function(enabled) 
+            V4 = enabled; 
+            ArmorApply(enabled) 
+        end
+    )
+                            
+            
+    function ArmorApply(enabled)
+        if not localplayer:is_in_vehicle() then 
+            return 
+        end
+        currentVehicle = localplayer:get_current_vehicle()
+        if enabled then
+            for name, value in next, vehicleChanges do
+                savedVehicle[name] = currentVehicle["get_"..name](currentVehicle)
+                currentVehicle["set_"..name](currentVehicle, value)
+            end
+            
+            return
+        end
+        
+        for name, value in next, savedVehicle do
+            currentVehicle["set_"..name](currentVehicle, value)
+        end
+    end
+
+    -------------------Brakes mod
+
+    submenu:add_toggle("Max Brakes (broke)",
+        function() 
+            return V3 
+        end,
+        function(enabled) 
+            V3 = enabled; 
+            BrakesApply(enabled) 
+        end
+    )
+            
+    function BrakesApply(enabled)
+        if not localplayer:is_in_vehicle() then 
+            return 
+        end
+        currentVehicle = localplayer:get_current_vehicle()
+        
+        if enabled then
+            for name, value in next, vehicleChanges do
+                savedVehicle[name] = currentVehicle["get_"..name](currentVehicle)
+                currentVehicle["set_"..name](currentVehicle, value)
+            end    
+            return
+        end
+        
+        for name, value in next, savedVehicle do
+            currentVehicle["set_"..name](currentVehicle, value)
+        end
+    end
+    ]]
+
+        --[[-----------------allgod-------------
+
+    submenu:add_action("AllGod",
+        function()
+            GodModeState = true
+            localplayer:set_godmode(GodModeState)
+            VDmgToggle = true
+            VehicleDamage(enabled)
+            VGodToggle = true
+            VehicleGod(enabled)
+        end    
+    )
+    ]]
+
+
+
+
+
+
+    ---------different attempts at traffic remover
+
+       --extrasmenu = submenu:add_submenu("extras") 
 
     --[[-------------------Traffic Remover    ----------------------
-
+ 
     local function ShouldDelete(veh)
         for i = 0, 31 do
             local currentPed = player.get_player_ped(i)
@@ -1480,31 +1557,7 @@ if localplayer then
         end
     )]]
 
-    submenu:add_toggle("Remove Traffic (host, w.i.p.)", function() return deleteCars end, 
-        function() 
-            deleteCars = not deleteCars 
-            while deleteCars do
-                if localplayer:is_in_vehicle() then
-                    for veh in replayinterface.get_vehicles() do
-                        local deleteConfirm = true
-                        for i = 0, 31 do
-                            local playerPed = player.get_player_ped(i)
-                            if playerPed and playerPed:get_current_vehicle() == veh then
-                                deleteConfirm = false
-                            end
-                        end
-                        if deleteConfirm then
-                            local pos = veh:get_position()
-                            pos.z = pos.z - 100000
-                            veh:set_position(pos)
-                        end
-                    end
-                end
-                sleep(.7)
-            end
-        end
-    )
-
+    
     --[[local function DeleteVehicle(veh)
     local pos = veh:get_position()
     pos.z = pos.z - 100000
@@ -1538,20 +1591,3 @@ if localplayer then
             end
         end
     )]]
-
-    -------------------/Big Map\-------------------
-    submenu:add_toggle("Big Map", function() return mapToggle end,
-        function(mapToggle)
-            if mapToggle then
-                menu:set_big_map(true)
-                return enabled
-            else
-                menu:set_big_map(false)
-            end 
-            return
-        end
-    )
-else 
-    submenu:add_action("go online, then reload scripts", function() return end)
-end
-
