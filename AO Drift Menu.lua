@@ -364,17 +364,8 @@ if localplayer then
     --------------------acceleration
 --adjuster for the acceleration multiplier. use to control power curve of vehicle
     submenu:add_float_range("Acceleration", 0.05, 0.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_acceleration()
-            end
-        end,
-        function(acceleration)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_acceleration(acceleration)  
-        end
+        function() return statGetter("acceleration") end,
+        function(value) statSetter("acceleration", value) end
     )
 
     --------------------traction modifier
