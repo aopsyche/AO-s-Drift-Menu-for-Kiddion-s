@@ -282,9 +282,9 @@ local driftTuneIndex = 1;
 submenu = menu.add_submenu("AO's Drift Menu")
 submenu:add_action("-------------AO's Drift Menu--------------", function() end)
 
-                      
+if localplayer then            
 -------------------/Drift tunes\-------------------
-if localplayer then
+
     submenu:add_array_item("Drift Tune:", {"None", "Vanillish", "VanillAverage", "Calpurnish", "CalHoon", "CalComp", 
     "Kuroish", "Manuish"}, 
         function() 
