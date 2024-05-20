@@ -410,20 +410,27 @@ if localplayer then
     nerdMenu = submenu:add_submenu("NerdTune", function() end)
     nerdMenu:add_action("-------------AO's NerdTune--------------", function() end)
 
+------------------------stat getter and setter
+    function statGetter(name) {
+        if not localplayer:is_in_vehicle() then        
+            return 1.0
+        else
+            currentVehicle = localplayer:get_current_vehicle()
+            return currentVehicle["get_"..name](currentVehicle)
+        end
+    }
+
+    function statSetter(name, value) {
+        currentVehicle = localplayer:get_current_vehicle()
+        currentVehicle["set_"..name](currentVehicle, value)
+    }
+
+
 --------------------NT acceleration
 
     nerdMenu:add_float_range("Acceleration", 0.01, -100.0, 100.0,
-        function() 
-            if not localplayer:is_in_vehicle() then        
-                return 1.0
-            else
-                return localplayer:get_current_vehicle():get_acceleration()
-            end
-        end,
-        function(acceleration)
-            currentVehicle = localplayer:get_current_vehicle() 
-            currentVehicle:set_acceleration(acceleration)  
-        end
+        function() statGetter("acceleration") end,
+        function() statSetter("acceleration", value) end
     )
 
     --------------------NT anti roll bar bias front
@@ -1121,10 +1128,6 @@ if localplayer then
 
         end
     )
-
-
-
-
 
     ----------------------vehicle god mode
 
