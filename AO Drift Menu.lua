@@ -411,19 +411,19 @@ if localplayer then
     nerdMenu:add_action("-------------AO's NerdTune--------------", function() end)
 
 ------------------------stat getter and setter
-    function statGetter(name) {
+    function statGetter(name) 
         if not localplayer:is_in_vehicle() then        
             return 1.0
         else
             currentVehicle = localplayer:get_current_vehicle()
             return currentVehicle["get_"..name](currentVehicle)
         end
-    }
+    end
 
-    function statSetter(name, value) {
+    function statSetter(name, value) 
         currentVehicle = localplayer:get_current_vehicle()
         currentVehicle["set_"..name](currentVehicle, value)
-    }
+    end
 
 
 --------------------NT acceleration
