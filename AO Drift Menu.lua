@@ -1,4 +1,9 @@
+--
+
+
+
 --to do:
+----TRAFFIC REMOVER, ADD RADIUS
 ----savedVehicle based on model hash, save trasnfers between same model different car?
 ----bug: traffic remover OnScriptsCallback interference
 ----bug: have to reload scripts for menu to display
