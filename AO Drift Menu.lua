@@ -598,7 +598,7 @@ if localplayer then
 
     --------------------NT center of mass offset x
 
-    nerdMenu:add_float_range("Center of Mass Offset X", .01, -10000.0, 10000.0,
+    nerdMenu:add_float_range("Center of Mass Offset X (L/R)", .01, -10000.0, 10000.0,
         function() 
             if not localplayer:is_in_vehicle() then        
                 return 1.0
@@ -618,7 +618,7 @@ if localplayer then
 
     --------------------NT center of mass offset y
 
-    nerdMenu:add_float_range("Center of Mass Offset Y", .01, -10000.0, 10000.0,
+    nerdMenu:add_float_range("Center of Mass Offset Y (Front/Rear)", .01, -10000.0, 10000.0,
         function() 
             if not localplayer:is_in_vehicle() then        
                 return 1.0
@@ -638,7 +638,7 @@ if localplayer then
 
     --------------------NT center of mass offset z
 
-    nerdMenu:add_float_range("Center of Mass Offset Z", .01, -10000.0, 10000.0,
+    nerdMenu:add_float_range("Center of Mass Offset Z (Down/Up)", .01, -10000.0, 10000.0,
         function() 
             if not localplayer:is_in_vehicle() then        
                 return 1.0
