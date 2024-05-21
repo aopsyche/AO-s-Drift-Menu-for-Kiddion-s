@@ -292,6 +292,7 @@ local driftTuneIndex = 1;
 ----------------functions
 
 ------------------------stat getter and setter
+--retrieves stats from current vehicle for display in menu
 function statGetter(name) 
     if not localplayer:is_in_vehicle() then        
         return 1.0
@@ -301,6 +302,7 @@ function statGetter(name)
     end
 end
 
+--applies stats to current vehicle
 function statSetter(name, value) 
     currentVehicle = localplayer:get_current_vehicle()
     currentVehicle["set_"..name](currentVehicle, value)
