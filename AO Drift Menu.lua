@@ -1,7 +1,7 @@
 --to do:
 ----savedVehicle based on model hash, save trasnfers between same model different car?
 ----bug: traffic remover OnScriptsCallback interference
-----bug: have to reload scripts for menu to display: line 134
+----bug: have to reload scripts for menu to display
 ----bug: repair resets vdmg, vgod
 ----bug: vgod, vdmg tog discrepancy if enabled, then get out and reenter vehicle
 ----bug: enable/disbale on all items? only while traffic disabled?
@@ -308,7 +308,7 @@ function statSetter(name, value)
     currentVehicle["set_"..name](currentVehicle, value)
 end
 
------------------menu
+-----------------AO drift menu
 submenu = menu.add_submenu("AO's Drift Menu")
 submenu:add_action("-------------AO's Drift Menu--------------", function() end)
 
@@ -552,7 +552,7 @@ if localplayer then
 
 
 
-    submenu:add_toggle("Remove Traffic (host, w.i.p.)", function() return deleteCars end, 
+    submenu:add_toggle("Remove Traffic (w.i.p, breaks near others)", function() return deleteCars end, 
         function() 
             deleteCars = not deleteCars 
             while deleteCars do
