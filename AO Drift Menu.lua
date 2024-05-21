@@ -480,12 +480,14 @@ if localplayer then
 
         if enabled then
             currentVehicle["set_can_be_visibly_damaged"](currentVehicle, false)
+            currentVehicle["set_window_collisions_disabled"](currentVehicle, false)
             currentVehicle["set_collision_damage_multiplier"](currentVehicle, 0)
             currentVehicle["set_deformation_damage_multiplier"](currentVehicle, 0)
             return
         end
         if not enabled then
             currentVehicle["set_can_be_visibly_damaged"](currentVehicle, true)
+            currentVehicle["set_window_collisions_disabled"](currentVehicle, true)
             currentVehicle["set_collision_damage_multiplier"](currentVehicle, 1)
             currentVehicle["set_deformation_damage_multiplier"](currentVehicle, 1)
             return
