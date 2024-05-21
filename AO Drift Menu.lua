@@ -551,6 +551,19 @@ if localplayer then
     end
 
 
+    -------------------/Big Map\-------------------
+    submenu:add_toggle("Big Map", function() return mapToggle end,
+    function(mapToggle)
+        if mapToggle then
+            menu:set_big_map(true)
+            return enabled
+        else
+            menu:set_big_map(false)
+        end 
+        return
+    end
+    )
+
 
     submenu:add_toggle("Remove Traffic (w.i.p, breaks near others)", function() return deleteCars end, 
         function() 
@@ -574,19 +587,6 @@ if localplayer then
                 end
                 sleep(.7)
             end
-        end
-    )
-
-    -------------------/Big Map\-------------------
-    submenu:add_toggle("Big Map", function() return mapToggle end,
-        function(mapToggle)
-            if mapToggle then
-                menu:set_big_map(true)
-                return enabled
-            else
-                menu:set_big_map(false)
-            end 
-            return
         end
     )
 
