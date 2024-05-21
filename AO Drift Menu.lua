@@ -313,12 +313,7 @@ submenu:add_action("-------------AO's Drift Menu--------------", function() end)
 
 --this check is a bit janky, callback?
 if localplayer then  
-    
----------------------menu building:::::::::::::::
 
-------------------nerdTune selector
---nerd tune options toward the end
-nerdMenu = submenu:add_submenu("NerdTune", function() end)
 
 -------------------/Drift tunes\-------------------
 --saves vanilla stats, applies drift tunes as selected from array
@@ -406,17 +401,15 @@ nerdMenu = submenu:add_submenu("NerdTune", function() end)
             currentVehicle:set_traction_curve_min(tractionMod - tractionModSpread)
             return
         end
-    )
+    )  
+        
+    ---------------------menu building:::::::::::::::
 
+    ------------------nerdTune selector
+    --nerd tune options toward the end
+    nerdMenu = submenu:add_submenu("NerdTune", function() end)
     
     
-    
-    
-    
-    
-
-
-
 -----------------------utilities and toggles
 
     -------------------/Clear Wanted Level\-------------------
