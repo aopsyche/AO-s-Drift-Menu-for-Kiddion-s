@@ -490,6 +490,8 @@ if localplayer then
             currentVehicle["set_window_collisions_disabled"](currentVehicle, false)
             currentVehicle["set_collision_damage_multiplier"](currentVehicle, 0)
             currentVehicle["set_deformation_damage_multiplier"](currentVehicle, 0)
+            currentVehicle["set_engine_damage_multiplier"](currentVehicle, 0)
+            currentVehicle["set_weapon_damage_multiplier"](currentVehicle, 0)
             return
         end
         if not enabled then
@@ -497,6 +499,8 @@ if localplayer then
             currentVehicle["set_window_collisions_disabled"](currentVehicle, true)
             currentVehicle["set_collision_damage_multiplier"](currentVehicle, 1)
             currentVehicle["set_deformation_damage_multiplier"](currentVehicle, 1)
+            currentVehicle["set_engine_damage_multiplier"](currentVehicle, 1)
+            currentVehicle["set_weapon_damage_multiplier"](currentVehicle, 1)
             return
         end
     end
